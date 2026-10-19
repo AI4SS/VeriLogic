@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VeriLogic makes logical reasoning traces verifiable, learnable, and refinable through Lean4 verification and path-specific reinforcement learning.">
+  <meta name="author" content="ZeLiang Chen, Yunyao Zhang, Xinglang Zhang, Wenbing Li, Junqing Yu, Zikai Song">
+  <meta name="theme-color" content="#2563eb">
+  <title>VeriLogic: Reinforcement Learning over Verifiable Logical Reasoning Traces</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <!-- Original Academic Project Page Template styles, retained unchanged. -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="verilogic.css">
+  <script src="content.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#introduction">Skip to content</a>
+<main>
+  <section class="hero publication-header" aria-labelledby="paper-title">
+    <div class="hero-body"><div class="container is-max-desktop"><div class="columns is-centered"><div class="column has-text-centered">
+      <h1 id="paper-title" class="title is-1 publication-title"><span class="paper-name">VeriLogic:</span> Reinforcement Learning over Verifiable Logical Reasoning Traces</h1>
+      <div class="is-size-5 publication-authors">
+        <span class="author-block"><a href="https://openreview.net/profile?id=~ZeLiang_Chen2" target="_blank" rel="noopener">ZeLiang Chen</a><sup>*</sup>,</span>
+        <span class="author-block"><a href="https://openreview.net/profile?id=~Yunyao_Zhang1" target="_blank" rel="noopener">Yunyao Zhang</a><sup>*</sup>,</span>
+        <span class="author-block"><a href="https://openreview.net/profile?id=~Xinglang_Zhang1" target="_blank" rel="noopener">Xinglang Zhang</a>,</span>
+        <span class="author-block"><a href="https://openreview.net/profile?id=~Wenbing_Li1" target="_blank" rel="noopener">Wenbing Li</a>,</span>
+        <span class="author-block"><a href="https://openreview.net/profile?id=~Junqing_Yu1" target="_blank" rel="noopener">Junqing Yu</a>,</span>
+        <span class="author-block"><a href="https://openreview.net/profile?id=~Zikai_Song1" target="_blank" rel="noopener">Zikai Song</a><sup>†</sup></span>
+      </div>
+      <p class="affiliation">Huazhong University of Science and Technology</p>
+      <p class="author-notes"><span><sup>*</sup>Equal contribution</span><span><sup>†</sup>Corresponding author</span></p>
+      <div class="publication-links" aria-label="Paper resources">
+        <span class="link-block"><a class="button is-normal is-rounded is-dark" href="assets/VeriLogic.pdf" target="_blank" rel="noopener"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"/></svg></span><span>Paper</span></a></span>
+        <span class="link-block"><a class="button is-normal is-rounded is-dark" href="#method"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 14h6v6h-6zM10 7h7v7M7 10v7h7"/></svg></span><span>Method</span></a></span>
+        <span class="link-block"><a class="button is-normal is-rounded is-dark" href="#results"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 3v17h17M8 16v-5M13 16V7M18 16V4"/></svg></span><span>Results</span></a></span>
+        <span class="link-block"><a class="button is-normal is-rounded is-dark" href="#citation"><span class="icon code-icon" aria-hidden="true">{ }</span><span>BibTeX</span></a></span>
+      </div>
+    </div></div></div></div>
+  </section>
+
+  <section class="hero teaser" aria-label="Research motivation"><div class="container is-max-desktop"><div class="hero-body">
+    <p class="tldr"><strong>TL;DR</strong> VeriLogic learns from explicit reasoning paths with Lean4-grounded feedback, combining global outcome supervision, path-specific optimization, and iterative proof repair.</p>
+    <figure class="research-figure motivation-figure"><button class="figure-zoom" type="button" data-zoom="assets/motivation.png" data-alt="Heterogeneous correctness in logical reasoning" aria-label="Enlarge motivation figure"><img src="assets/motivation.png" alt="Correct final answers can coexist with incorrect reasoning or failed proofs; path-specific supervision separates their correctness" fetchpriority="high"></button><figcaption id="motivation-caption"></figcaption></figure>
+  </div></div></section>
+
+  <section id="introduction" class="section hero is-light" aria-labelledby="introduction-title"><div class="container is-max-desktop"><div class="columns is-centered"><div class="column is-four-fifths">
+    <h2 id="introduction-title" class="title is-3 has-text-centered">Introduction</h2>
+    <div id="introduction-text" class="content has-text-justified"></div>
+  </div></div></div></section>
+
+  <section id="method" class="section" aria-labelledby="method-title"><div class="container is-max-desktop">
+    <h2 id="method-title" class="title is-3 has-text-centered">Methodology</h2>
+    <p class="section-lead has-text-centered">Grounding &nbsp;–&nbsp; Optimization &nbsp;–&nbsp; Refinement</p>
+    <div class="content method-copy"><ol>
+      <li><strong>Verifiable reasoning environment.</strong> Formalize the premises and query in Lean4, and represent Positive, Negative, and Unknown Paths explicitly. Positive and Negative Paths target <span class="math">P</span> and <span class="math">¬P</span>, with proof candidates checked when derivability is claimed. The Unknown Path reasons about insufficient support and contains no proof.</li>
+      <li><strong>Path-specific advantage routing.</strong> PSAR-GRPO combines global outcome supervision with independently normalized local feedback. Local rewards distinguish path correctness, proof validity, and consistency, and their advantages are routed to the corresponding reasoning regions.</li>
+      <li><strong>Verifier-guided iterative refinement.</strong> Lean4 proof states, remaining goals, and error messages guide revisions to unsuccessful proofs. At test time, the model makes up to three additional repair attempts after its initial response.</li>
+    </ol></div>
+    <figure class="research-figure pipeline-figure"><button class="figure-zoom" type="button" data-zoom="assets/pipeline.png" data-alt="The VeriLogic Grounding–Optimization–Refinement pipeline" aria-label="Enlarge method overview"><img src="assets/pipeline.png" alt="VeriLogic constructs verifiable reasoning paths, optimizes global and local advantages, and repairs proofs with Lean4 feedback" loading="lazy"></button><figcaption id="pipeline-caption"></figcaption></figure>
+  </div></section>
+
+  <section id="results" class="section hero is-light" aria-labelledby="results-title"><div class="container is-max-desktop">
+    <h2 id="results-title" class="title is-3 has-text-centered">Main Results</h2>
+    <p class="section-lead has-text-centered">Six reasoning benchmarks. Three backbone models.</p>
+    <div class="content results-intro"><p>VeriLogic consistently improves average accuracy over the strongest corresponding baselines. The gains below are in <strong>percentage points</strong>.</p></div>
+    <div id="gain-summary" class="columns is-mobile has-text-centered gain-summary" aria-label="Average accuracy improvements"></div>
+    <div class="results-toolbar"><div id="model-tabs" class="choice-tabs" role="tablist" aria-label="Select backbone model"></div><span class="table-unit">Accuracy (%) · higher is better</span></div>
+    <div id="model-panel" role="tabpanel" aria-labelledby="model-0"><div class="table-container results-scroll" tabindex="0" aria-label="Experimental results table"><table id="results-table" class="table is-fullwidth"><caption class="visually-hidden">Main results for the selected backbone</caption><thead><tr><th scope="col">Method</th><th scope="col">MultiLogic</th><th scope="col">ProofWriter</th><th scope="col">FOLIO</th><th scope="col">ProverQA</th><th scope="col">LogiQA</th><th scope="col">e-SNLI</th><th scope="col">Avg. ↑</th></tr></thead><tbody id="results-body"></tbody></table></div></div>
+    <p id="results-caption" class="figure-caption table-caption"></p>
+  </div></section>
+
+  <section class="section" aria-labelledby="analysis-title"><div class="container is-max-desktop">
+    <h2 id="analysis-title" class="title is-3 has-text-centered">Analysis</h2>
+    <div class="content analysis-copy"><h3 class="title is-5">What does each component contribute?</h3><p>On Qwen3-8B, formalization provides the largest single-component gain, raising average accuracy from <strong>80.70% to 90.00%</strong>. The complete framework reaches <strong>96.53%</strong>, with complementary contributions from path-specific optimization and verifier-guided refinement.</p></div>
+    <figure class="research-figure ablation-figure"><button class="figure-zoom" type="button" data-zoom="assets/figure14.png" data-alt="Component ablation on Qwen3-8B" aria-label="Enlarge component ablation"><img src="assets/figure14.png" alt="Component ablation comparing formalization, GRPO, path-specific optimization, refinement, and full VeriLogic" loading="lazy"></button><figcaption id="ablation-caption"></figcaption></figure>
+    <div class="columns analysis-columns">
+      <div class="column"><h3 class="title is-5">Complexity robustness</h3><p>Accuracy decreases as logical complexity grows. On the LoCM test set, VeriLogic achieves the highest or tied-highest accuracy in every complexity bin.</p><figure class="research-figure"><button class="figure-zoom" type="button" data-zoom="assets/noacc.png" data-alt="LoCM complexity curves" aria-label="Enlarge complexity curves"><img src="assets/noacc.png" alt="Accuracy curves across increasing logical complexity" loading="lazy"></button><figcaption id="complexity-caption"></figcaption></figure></div>
+      <div class="column"><h3 class="title is-5">Iterative verifier feedback</h3><p>Across repair rounds, the formalization pass rate rises from <strong>58.0% to 99.6%</strong>, while the proof pass rate rises from <strong>42.3% to 76.4%</strong>.</p><figure class="research-figure"><button class="figure-zoom" type="button" data-zoom="assets/figure10.png" data-alt="Verifier feedback by repair round" aria-label="Enlarge verifier feedback chart"><img src="assets/figure10.png" alt="Formalization and proof pass rates increase across three additional repair rounds" loading="lazy"></button><figcaption id="feedback-caption"></figcaption></figure></div>
+    </div>
+    <div class="routing-block columns is-vcentered"><div class="column content"><h3 class="title is-5">Local signals need the right destination</h3><p>Correct routing assigns each local advantage to its corresponding reasoning path. Swapping paths, broadcasting across the full response, or assigning feedback to random regions reduces the reported average accuracy.</p></div><div class="column"><div class="table-container"><table class="table is-fullwidth routing-table"><caption>Routing strategies on Qwen3-8B</caption><thead><tr><th scope="col">Routing</th><th scope="col">Avg. (%)</th><th scope="col">Δ</th></tr></thead><tbody><tr><th scope="row">Base (GRPO)</th><td>92.70</td><td>—</td></tr><tr><th scope="row">Swapped</th><td>72.75</td><td class="negative">−19.95</td></tr><tr><th scope="row">Full-response</th><td>90.76</td><td class="negative">−1.94</td></tr><tr><th scope="row">Random-region</th><td>86.86</td><td class="negative">−5.84</td></tr><tr class="ours"><th scope="row">Correct routing (ours)</th><td>96.53</td><td class="positive">+3.83</td></tr></tbody></table></div></div></div>
+  </div></section>
+
+  <section id="citation" class="section hero is-light" aria-labelledby="citation-title"><div class="container is-max-desktop">
+    <h2 id="citation-title" class="title is-3">BibTeX</h2>
+    <div class="citation-heading"><span>Preprint</span><button id="copy-citation" class="button is-small" type="button">Copy BibTeX</button></div>
+    <pre><code id="citation-code">@misc{verilogic,
+  title  = {{VeriLogic}: Reinforcement Learning over
+            Verifiable Logical Reasoning Traces},
+  author = {Chen, ZeLiang and Zhang, Yunyao and Zhang, Xinglang and
+            Li, Wenbing and Yu, Junqing and Song, Zikai},
+  year   = {2026},
+  url    = {https://ai4ss.github.io/VeriLogic/},
+  note   = {Preprint}
+}</code></pre>
+    <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+  </div></section>
+</main>
+<footer class="footer"><div class="container is-max-desktop"><div class="content has-text-centered"><p>Website adapted from the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>, based on <a href="https://nerfies.github.io/" target="_blank" rel="noopener">Nerfies</a>.</p><p>The website template is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</p></div></div></footer>
+<dialog id="figure-dialog" aria-label="Enlarged research figure"><button class="dialog-close" type="button" aria-label="Close enlarged figure">×</button><img id="dialog-image" alt=""></dialog>
+</body>
+</html>
